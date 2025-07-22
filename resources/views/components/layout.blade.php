@@ -145,10 +145,10 @@
                     class="block p-2 rounded {{ request()->is('admin') ? 'bg-gray-800 font-bold' : 'hover:bg-gray-800' }}">
                     الادمن
                 </a>
-                <a href="supplier"
+                {{-- <a href="supplier"
                     class="block p-2 rounded {{ request()->is('supplier') ? 'bg-gray-800 font-bold' : 'hover:bg-gray-800' }}">
                     الموردين
-                </a>
+                </a> --}}
                 <a href="allorder"
                     class="block p-2 rounded {{ request()->is('allorder') ? 'bg-gray-800 font-bold' : 'hover:bg-gray-800' }}">
                     الطلبات

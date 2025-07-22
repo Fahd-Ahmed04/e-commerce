@@ -34,7 +34,9 @@
                                 <th class="px-4 py-3">السعر</th>
                                 <th class="px-4 py-3">الكمية</th>
                                 <th class="px-4 py-3">الإجمالي</th>
+                                @if ($orders->status !== 'retrieve')
                                 <th class="px-4 py-3">إجراء</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
@@ -49,13 +51,15 @@
 
                                     <td class="px-4 py-3 font-semibold text-blue-600">{{ $order->total_price }} EGP</td>
                                     <td>
-                                        <form action="{{ route('replace-order-show', $order->id) }}" method="GET"
-                                            class="inline">
-                                            <button type="submit"
-                                                class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-4 py-1.5 rounded-lg shadow-md transition">
-                                                استبدال
-                                            </button>
-                                        </form>
+                                        @if ($orders->status !== 'retrieve')
+                                            <form action="{{ route('replace-order-show', $order->id) }}" method="GET"
+                                                class="inline">
+                                                <button type="submit"
+                                                    class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-4 py-1.5 rounded-lg shadow-md transition">
+                                                    استبدال
+                                                </button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -17,7 +17,8 @@ class TotalOrderController extends Controller
     public function show($id)
     {
         $total_order = OrderDetails::where('order_id', $id)->get();
-        return view('show', compact('total_order', 'id'));
+        $orders = TotalOrder::where('id', $id)->first();
+        return view('show', compact('total_order', 'orders', 'id'));
     }
     public function replace($id)
     {
@@ -31,11 +32,15 @@ class TotalOrderController extends Controller
     public function update(Request $request)
     {
         $order = OrderDetails::findOrFail($request->id);
-        $total_order = OrderDetails::where('order_id', $order->order_id)->get();
-        $product = Product::findOrFail($request->product_name);
+        $product = Product::where('name', $order->product_name)->first();
+
+        $product->amount += $order->amount;
+        $product->save();
+
         if ($product->amount < $request->amount) {
             return back()->with('error', 'This amount isn\'t enough');
         }
+        $pro = Product::findOrFail($request->product_name);
         $validation = $request->validate([
             'admin_name'   => ['required', 'regex:/^[\p{Arabic}\- ]+$/u', 'max:255'],
             'user_name'    => ['required', 'regex:/^[\p{Arabic}\- ]+$/u', 'max:255'],
@@ -43,11 +48,20 @@ class TotalOrderController extends Controller
             'price'        => ['required', 'numeric'],
             'amount'       => ['required', 'numeric'],
         ]);
-        $validation['product_name'] = $product->name;
-        $order->update($validation);
-        $product->amount -= $request->amount;
-        $product->save();
-        return view('show', compact('total_order'));
+        $total_order = OrderDetails::where('order_id', $order->order_id)->get();
+        $order->update([
+            'admin_name' => $request->admin_name,
+            'user_name' => $request->user_name,
+            'product_name' => $pro->name,
+            'price' => $pro->price,
+            'amount' => $request->amount,
+            'order_id' => $total_order[0]['order_id'],
+            'total_price' => $pro->price * $request->amount,
+        ]);
+
+        $pro->amount -= $request->amount;
+        $pro->save();
+        return redirect()->route('show-order', $order->order_id)->with('success', 'تم التحديث بنجاح');
     }
     public function destroy($id)
     {
