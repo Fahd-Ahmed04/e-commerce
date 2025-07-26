@@ -7,7 +7,7 @@
     <title>Products</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    
     <script>
         $(document).ready(function() {
             $('#product_name').prop('disabled', true);
@@ -114,9 +114,7 @@
             </div>
         </div>
     </nav>
-
-
-
+    
     <div class="flex pt-16">
         <aside class="w-60 bg-gray-600 text-white fixed h-screen">
             <nav class="flex-1 p-4 space-y-4 mt-4">

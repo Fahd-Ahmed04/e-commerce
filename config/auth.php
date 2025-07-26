@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\App;
+
 return [
 
     /*
@@ -62,7 +64,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => APP\Models\Admin::class,
+            'model' => \App\Models\Admin::class,
         ],
 
         // 'users' => [

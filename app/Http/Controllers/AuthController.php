@@ -19,7 +19,6 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required', Password::min(6)],
         ]);
-
         if (Auth::attempt($validation)) {
             $request->session()->regenerate();
             return redirect('/store');
